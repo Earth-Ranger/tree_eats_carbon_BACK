@@ -22,3 +22,11 @@ spring:
             descriptor:
               sql:
                 BasicBinder: TRACE
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 344247841656-eoh3354438m44ap1bre5q1lnoa08hndj.apps.googleusercontent.com
+            client-secret: Vpct4VRO5TPT0nLIcEQK_nSB
+            scope: email, name

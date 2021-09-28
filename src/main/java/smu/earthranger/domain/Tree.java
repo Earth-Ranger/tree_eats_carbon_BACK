@@ -20,7 +20,7 @@ public class Tree {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member user;
 
     private int tree_level;
 }
