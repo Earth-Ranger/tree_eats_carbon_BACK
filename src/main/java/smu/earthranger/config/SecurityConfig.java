@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/carbon").permitAll()  //전체 열람
                 .antMatchers("/member/signup").permitAll()
                 .antMatchers("/member/login").permitAll()
+                .antMatchers("/member/update").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

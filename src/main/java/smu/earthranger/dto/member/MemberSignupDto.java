@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 
 @Builder
@@ -22,10 +23,14 @@ public class MemberSignupDto {
     @NotBlank(message = "이름은 필수 항목입니다")
     private String name;
 
-    @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.")
+    @Size(min = 1, message = "비밀번호는 1자 이상이어야 합니다.")
     @NotBlank(message = "비밀번호는 필수 항목입니다.")
     private String password;
 
     public MemberSignupDto() {
+    }
+
+    public String getUser(){
+        return email;
     }
 }
