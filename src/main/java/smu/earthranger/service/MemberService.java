@@ -1,28 +1,16 @@
 package smu.earthranger.service;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import smu.earthranger.config.auth.MemberDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smu.earthranger.domain.Member;
-import smu.earthranger.dto.MemberSignupDto;
-import smu.earthranger.dto.MemberUpdateDto;
+import smu.earthranger.dto.member.MemberSignupDto;
+import smu.earthranger.dto.member.MemberUpdateDto;
 import smu.earthranger.handler.CustomValidationException;
 import smu.earthranger.repository.MemberRepository;
-
-import javax.management.relation.Role;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

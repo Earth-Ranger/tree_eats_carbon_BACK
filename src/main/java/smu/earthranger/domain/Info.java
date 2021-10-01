@@ -1,10 +1,11 @@
 package smu.earthranger.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,4 +17,10 @@ public class Info {
     @Column(name = "info_id")
     private Long id;
     private String content;
+
+    @Builder
+    public Info(String content) {
+        this.content = content;
+    }
+
 }

@@ -1,17 +1,16 @@
-package smu.earthranger.dto;
+package smu.earthranger.dto.member;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import smu.earthranger.domain.Member;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 
 @Builder
 @Data
-@AllArgsConstructor  // 모든 필드를 파라미터로 갖는 생성자
+@AllArgsConstructor
 public class MemberSignupDto {
 
     @Size(min = 1, max=50, message = "이메일은 2 ~ 50자여야 합니다.")
