@@ -76,21 +76,5 @@ public class MemberService {
         return returnJson;
     }
 
-    // 회원 정보 수정
-    @Transactional
-    public void update(MemberUpdateDto memberUpdateDto, Member member){
 
-        Member updateMember = memberRepository.findMemberByEmail(member.getMember().getEmail())
-                .orElseThrow(() -> new IllegalStateException("없는 회원입니다."));
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        updateMember.update(encoder.encode(memberUpdateDto.getPassword()),
-                memberUpdateDto.getName(),
-                memberUpdateDto.getPassword()
-        );
-
-        //정보 변경
-        member.updateMember(member);
-    }
 }

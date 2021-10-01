@@ -53,15 +53,10 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();   //member_roles table 생성되면서 오류남
 
-    private Member member;
 
-    public void update(String email, String name,String password) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
+    public void updateMember(String name){
+        this.name= name;
     }
-
-    public void updateMember(Member member) { this.member = member; }
 
     public void updateTree(int treeLevel){
         this.treeLevel = treeLevel;
