@@ -76,12 +76,12 @@ public class FollowServiceTest {
         followService.followMember(memberB.getId(), memberA.getId());   //B => A
 
         //when
-        FollowResponseDto result1 = followService.findFollowerByOption(memberA.getId(),0, "jimin");
-        FollowResponseDto result2 = followService.findFollowerByOption(memberA.getId(), 1,"jimin' s email");
+        //FollowResponseDto result1 = followService.findFollowerByOption(memberA.getId(),0, "jimin");
+        //FollowResponseDto result2 = followService.findFollowerByOption(memberA.getId(), 1,"jimin' s email");
 
         //then
-        Assertions.assertEquals("jimin", result1.getName());
-        Assertions.assertEquals("jimin", result2.getName());
+        //Assertions.assertEquals("jimin", result1.getName());
+        //Assertions.assertEquals("jimin", result2.getName());
     }
 
     @Test

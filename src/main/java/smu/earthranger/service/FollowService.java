@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smu.earthranger.domain.Follow;
 import smu.earthranger.domain.Member;
+import smu.earthranger.dto.follow.FollowMemberResponseDto;
 import smu.earthranger.dto.follow.FollowRequestDto;
 import smu.earthranger.dto.follow.FollowResponseDto;
 import smu.earthranger.repository.FollowRepository;
@@ -69,15 +70,14 @@ public class FollowService {
 
     /**
      * 이웃 검색_이름 :0, 이메일 :1 : Follow 대상
-     * 방법 1 : 옵션으로 구분
      * 방법 2 : 쿼리로 name, email 받아서 컨트롤러에서 따로 처리
      */
-    public FollowResponseDto findFollowerByName(Long id, String followName){
+    public FollowMemberResponseDto findFollowerByName(Long id, String followName){
 
-        Follow follow  = followRepository.findByFromMember_IdAndToMember_Name(id, followName).orElseThrow(() ->
+        Member member = memberRepository.findMemberByName(followName).orElseThrow(() ->
                 new IllegalStateException("Non exist Member."));
-        return FollowResponseDto.builder().follow(follow).build();
 
+        return FollowMemberResponseDto.builder().member(member).build();
     }
 
     /**
