@@ -4,7 +4,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import smu.earthranger.dto.carbon.Carbon;
+import smu.earthranger.domain.carbon.Carbon;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -59,6 +59,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
         this.treeLevel = treeLevel;
     }
 
+
     public void updateTreeCnt(int treeLevel){
         this.treeLevel = treeLevel;
         this.treeCount += 1;
@@ -108,6 +109,4 @@ public class Member extends BaseTimeEntity implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
-
-
 }
