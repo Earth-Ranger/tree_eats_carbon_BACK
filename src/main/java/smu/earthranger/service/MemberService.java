@@ -1,55 +1,58 @@
 package smu.earthranger.service;
 
 import lombok.RequiredArgsConstructor;
-import smu.earthranger.config.auth.MemberDetails;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smu.earthranger.domain.Member;
+import smu.earthranger.dto.member.MemberLoginDto;
 import smu.earthranger.dto.member.MemberSignupDto;
-import smu.earthranger.dto.member.MemberUpdateDto;
-import smu.earthranger.handler.CustomValidationException;
+import smu.earthranger.dto.user.TokenDto;
+import smu.earthranger.jwt.JwtTokenProvider;
 import smu.earthranger.repository.MemberRepository;
 
+import java.util.Collections;
+
+@Slf4j
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
-
 public class MemberService {
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-    // 회원 가입
+    /**
+     * 회원가입
+     */
     @Transactional
-    public Member save(MemberSignupDto memberSignupDto) {
+    public Long save(MemberSignupDto memberSignupDto) {
 
         // 중복 회원 검증
-        if(memberRepository.findMemberByEmail(memberSignupDto.getEmail()) != null)
-            throw new CustomValidationException("이미 존재하는 회원입니다.");
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if(memberRepository.findMemberByEmail(memberSignupDto.getEmail()).isPresent())
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
 
         return memberRepository.save(Member.builder()
                 .email(memberSignupDto.getEmail())
+                .password(passwordEncoder.encode(memberSignupDto.getPassword()))
                 .name(memberSignupDto.getName())
-                .password(encoder.encode(memberSignupDto.getPassword()))
-                .build());
+                .roles(Collections.singletonList("ROLE_USER")) // 최초 가입시 USER 로 설정
+                .build()).getId();
     }
 
-    // 회원 정보 수정
-    @Transactional
-    public void update(MemberUpdateDto memberUpdateDto, MemberDetails memberDetails){
-        Member member = memberRepository.findById(memberDetails.getMember().getId()).orElseThrow(() -> { return new CustomValidationException("없는 회원입니다.");});
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    //email, password
+    public TokenDto getToken(MemberLoginDto memberLoginDto){
+        Member member = memberRepository.findMemberByEmail(memberLoginDto.getEmail())
+                .orElseThrow(() -> new IllegalStateException("가입되지 않은 이메일 입니다."));
 
-        member.update(
-                encoder.encode(memberUpdateDto.getPassword()),
-                memberUpdateDto.getName(),
-                memberUpdateDto.getPassword()
-        );
+        if(!passwordEncoder.matches(memberLoginDto.getPassword(), member.getPassword())){
+            throw new IllegalStateException("잘못된 비밀번호 입니다.");
+        }
 
-        //정보 변경
-        memberDetails.updateMember(member);
+        String token = jwtTokenProvider.createToken(member.getEmail(), member.getRoles());
+
+        return new TokenDto(token);
     }
+
 }
