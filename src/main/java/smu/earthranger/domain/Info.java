@@ -1,13 +1,11 @@
 package smu.earthranger.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,11 +13,14 @@ import javax.persistence.Id;
 public class Info {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "info_id")
     private Long id;
-
-    private int tree_plant;
-
     private String content;
+
+    @Builder
+    public Info(String content) {
+        this.content = content;
+    }
+
 }
